@@ -12,28 +12,32 @@ GEMINI_API_KEY = "AIzaSyDgFbt8YURcFF3KFf6DR1PBr6D784YmWMs"
 
 
 def speak_text(text):
-    """Ensure full speech output by processing in paragraph chunks."""
+    """Convert text to speech using gTTS and play the output in Streamlit."""
     try:
-        # Split text into paragraph chunks (every 2-3 sentences)
-        paragraphs = re.split(r'(\.|\?|!)(\s+)', text)  # Keep punctuation
+        # Split text into smaller chunks to avoid gTTS limits
+        paragraphs = re.split(r'(\.|\?|!)(\s+)', text)
         full_chunks = []
-
-        # Merge sentence parts into full chunks
         chunk = ""
+
         for part in paragraphs:
             chunk += part
-            if len(chunk) > 3000:  # Adjust chunk size dynamically
+            if len(chunk) > 3000:  # Keep each chunk within limits
                 full_chunks.append(chunk.strip())
                 chunk = ""
 
         if chunk:
             full_chunks.append(chunk.strip())
 
-        # Speak each chunk fully before moving on
+        # Generate and play speech for each chunk
         for chunk in full_chunks:
-            engine.say(chunk)
-            engine.runAndWait()  # Ensure speech completes before moving on
-            time.sleep(0.7)  # Add a small delay to prevent cutoffs
+            tts = gTTS(text=chunk, lang='en')
+
+            # Save to a temporary file
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_audio:
+                tts.save(temp_audio.name)
+                st.audio(temp_audio.name, format="audio/mp3")
+
+        st.success("Speech playback complete!")
 
     except Exception as e:
         st.error(f"Error in text-to-speech: {e}")
