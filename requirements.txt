@@ -1,2 +1,3 @@
 pyttsx3
 SpeechRecognition
+pyttsx3[espeak]
