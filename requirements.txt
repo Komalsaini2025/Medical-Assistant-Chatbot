@@ -1,3 +1,2 @@
 gtts
 SpeechRecognition
-pyttsx3[espeak]
