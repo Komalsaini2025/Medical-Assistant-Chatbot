@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 import json
-import pyttsx3
+from gtts import gTTS
 import time
 import speech_recognition as sr
 import re  # Import regex for text splitting
@@ -9,14 +9,10 @@ import re  # Import regex for text splitting
 # Replace with your valid Gemini API Key
 GEMINI_API_KEY = "AIzaSyDgFbt8YURcFF3KFf6DR1PBr6D784YmWMs"
 
-# Initialize pyttsx3 Text-to-Speech engine
-engine = pyttsx3.init()
 
 def speak_text(text):
     """Ensure full speech output by processing in paragraph chunks."""
     try:
-        engine.stop()  # Clear any previous speech queue
-
         # Split text into paragraph chunks (every 2-3 sentences)
         paragraphs = re.split(r'(\.|\?|!)(\s+)', text)  # Keep punctuation
         full_chunks = []
