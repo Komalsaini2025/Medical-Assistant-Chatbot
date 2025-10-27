@@ -8,7 +8,7 @@ import speech_recognition as sr
 import re  # Import regex for text splitting
 
 # Replace with your valid Gemini API Key
-GEMINI_API_KEY = "AIzaSyD68-8EOD63MUyvGJ2DrnkTv8R2tArcvDE"
+GEMINI_API_KEY = "Your API Key"
 
 
 def speak_text(text):
@@ -112,3 +112,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
